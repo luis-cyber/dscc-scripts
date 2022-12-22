@@ -1,20 +1,10 @@
 language: node_js
-env:
-  - YARN_GPG=no
-os:
-  - windows
-  - linux
-  - osx
 node_js:
-  - 10
+  - "node"
 branches:
   only:
     - master
 cache:
   directories:
   - node_modules/
-script: ./test.sh
-addons:
-  apt:
-    packages:
-      - expect
+script: yarn test --silent && yarn prettier:check && yarn lint && yarn build:check
