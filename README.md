@@ -1,32 +1,74 @@
-<h1 align="center">
-  <br>
-  tooling
-  <br>
-</h1>
+# dscc-scripts
 
-<p align="center"><a href="https://www.npmjs.com/package/@google/dscc-gen"><img src="https://img.shields.io/npm/v/@google/dscc-gen.svg" alt="npm Version"></a> <a href="https://npmcharts.com/compare/@google/dscc-gen?minimal=true"><img src="https://img.shields.io/npm/dw/@google/dscc-gen.svg" alt="npm Downloads"></a> <a href="http://packagequality.com/#?package=%40google%2Fdscc-gen"><img src="http://npm.packagequality.com/shield/%40google%2Fdscc-gen.svg" alt="Package Quality"></a> <a href="https://github.com/google/clasp"><img src="https://img.shields.io/badge/built%20with-clasp-4285f4.svg" alt="Built with Clasp"></a></p>
+Scripts to simplify management of Data Studio developer features. The project is
+primarily used by [dscc-gen].
 
-Tooling for [Data Studio Developer Features]
+## Usage
 
-## What's in this repo
+To use these scripts, add `@google/dscc-scripts` to your `package.json`.
 
-[ds-component]:
-+ A helper library for [community visualization] development.
+```shell
+npm install -D @google/dscc-scripts
+```
 
-[dscc-scripts]:
-+ Scripts to simplify deployment of Data Studio developer projects.
+or
 
-[dscc-gen]:
-+ An opinionated templating tool to bootstrap community connectors or community visualizations.
+```shell
+yarn add -D @google/dscc-scripts
+```
 
-Review the README for each package to learn more.
+This will make `dscc-scripts` available to your npm scripts.
 
-## Developer notes
-- The top-level `package.json` and `yarn.lock` exist to make sure that yarn is
-  available in our travis environment.
+The scripts require your `package.json` to have some configuration.
 
-[Data Studio Developer Features]: https://developers.google.com/datastudio/
-[ds-component]: ./packages/ds-component/
-[dscc-scripts]: ./packages/dscc-scripts/
-[dscc-gen]: ./packages/dscc-gen/
-[community visualization]: https://developers.google.com/datastudio/visualization
+### Viz
+
+For viz, you need to add a `dsccViz` property.
+
+```json
+{
+    ...,
+    "dsccViz": {
+        "gcsDevBucket": "{{DEV_BUCKET}}",
+        "gcsProdBucket": "{{PROD_BUCKET}}",
+        "jsFile": "index.js",
+        "jsonFile": "index.json",
+        "cssFile": "index.css"
+    }
+    ...
+}
+```
+
+The following scripts are available for viz.
+
++   `npm run dscc-scripts viz build -h`
++   `npm run dscc-scripts viz push -h`
++   `npm run dscc-scripts viz update_message -h`
++   `npm run dscc-scripts viz start -h`
+
+### Connectors
+
+For connectors, you need to add a `dsccConnector` property.
+
+```json
+{
+  ...,
+  "dsccConnector": {
+    "production": "{{PRODUCTION_DEPLOYMENT_ID}}",
+    "latest": "{{LATEST_DEPLOYMENT_ID}}"
+  },
+  ...
+}
+```
+
+The following scripts are available for connectors.
+
++   `npm run dscc-scripts connector push_changes -h`
++   `npm run dscc-scripts connector watch_changes -h`
++   `npm run dscc-scripts connector open_script -h`
++   `npm run dscc-scripts connector try_production -h`
++   `npm run dscc-scripts connector try_latest -h`
++   `npm run dscc-scripts connector update_production -h`
++   `npm run dscc-scripts connector open_template -h`
+
+[dscc-gen]: https://github.com/googledatastudio/tooling/packages/dscc-gen
